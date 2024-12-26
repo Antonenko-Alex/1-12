@@ -1,0 +1,1000 @@
+ЗАДАНИЕ 1 .................................................................. 
+
+public class MazeGame {
+    public static void main(String[] args) {
+        ConcreteEnemyFactory enemyFactory = new ConcreteEnemyFactory();
+
+        // создание врагов
+        Enemy goblin = enemyFactory.createEnemy("goblin");
+        Enemy orc = enemyFactory.createEnemy("orc");
+        Enemy dragon = enemyFactory.createEnemy("dragon");
+
+        // атака врагов
+        if (goblin != null) {
+            goblin.attack();
+        }
+        if (orc != null) {
+            orc.attack();
+        }
+        if (dragon != null) {
+            dragon.attack();
+        }
+    }
+}
+
+abstract class Enemy {
+    protected String name;
+
+    public abstract void attack();
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Goblin extends Enemy {
+    public Goblin() {
+        name = "Гоблин";
+    }
+
+    @Override
+    public void attack() {
+        System.out.println(name + " атакует с помощью дубинки!");
+    }
+}
+
+class Orc extends Enemy {
+    public Orc() {
+        name = "Орк";
+    }
+
+    @Override
+    public void attack() {
+        System.out.println(name + " атакует с помощью меча!");
+    }
+}
+
+class Dragon extends Enemy {
+    public Dragon() {
+        name = "Дракон";
+    }
+
+    @Override
+    public void attack() {
+        System.out.println(name + " дышит огнем!");
+    }
+}
+
+abstract class EnemyFactory {
+    public abstract Enemy createEnemy(String type);
+}
+
+class ConcreteEnemyFactory extends EnemyFactory {
+    @Override
+    public Enemy createEnemy(String type) {
+        switch (type.toLowerCase()) {
+            case "goblin":
+                return new Goblin();
+            case "orc":
+                return new Orc();
+            case "dragon":
+                return new Dragon();
+            default:
+                return null;
+        }
+    }
+}
+
+ЗАДАНИЕ 2........................................................................
+
+public class StrategyGame {
+    public static void main(String[] args) {
+        // создание фабрики для фракции A
+        UnitFactory factionAFactory = new ConcreteUnitFactoryA();
+        Unit infantryA = factionAFactory.createInfantry();
+        Unit tankA = factionAFactory.createTank();
+        Unit artilleryA = factionAFactory.createArtillery();
+
+        // атака юнитов фракции A
+        infantryA.attack();
+        tankA.attack();
+        artilleryA.attack();
+
+        System.out.println();
+
+        // создание фабрики для фракции B
+        UnitFactory factionBFactory = new ConcreteUnitFactoryB();
+        Unit infantryB = factionBFactory.createInfantry();
+        Unit tankB = factionBFactory.createTank();
+        Unit artilleryB = factionBFactory.createArtillery();
+
+        // атака юнитов фракции B
+        infantryB.attack();
+        tankB.attack();
+        artilleryB.attack();
+    }
+}
+
+abstract class Unit {
+    protected String name;
+
+    public abstract void attack();
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Infantry extends Unit {
+    public Infantry() {
+        name = "Пехота";
+    }
+
+    @Override
+    public void attack() {
+        System.out.println(name + " атакует с помощью винтовки!");
+    }
+}
+
+class Tank extends Unit {
+    public Tank() {
+        name = "Танк";
+    }
+
+    @Override
+    public void attack() {
+        System.out.println(name + " стреляет из пушки!");
+    }
+}
+
+class Artillery extends Unit {
+    public Artillery() {
+        name = "Артиллерия";
+    }
+
+    @Override
+    public void attack() {
+        System.out.println(name + " обстреливает противника с дальнего расстояния!");
+    }
+}
+
+abstract class UnitFactory {
+    public abstract Unit createInfantry();
+    public abstract Unit createTank();
+    public abstract Unit createArtillery();
+}
+
+class ConcreteUnitFactoryA extends UnitFactory {
+    @Override
+    public Unit createInfantry() {
+        return new Infantry();
+    }
+
+    @Override
+    public Unit createTank() {
+        return new Tank();
+    }
+
+    @Override
+    public Unit createArtillery() {
+        return new Artillery();
+    }
+}
+
+class ConcreteUnitFactoryB extends UnitFactory {
+    @Override
+    public Unit createInfantry() {
+        return new Infantry();
+    }
+
+    @Override
+    public Unit createTank() {
+        return new Tank();
+    }
+
+    @Override
+    public Unit createArtillery() {
+        return new Artillery();
+    }
+}
+
+ЗАДАНИЕ 3....................................................
+
+public class ColorEditor {
+    public static void main(String[] args) {
+        // создание цвета в RGB
+        Color rgbColor = new ColorBridge(new RGB(255, 0, 0));
+        System.out.println("Цвет в RGB: " + rgbColor.getColor());
+
+        // создание цвета в CMYK
+        Color cmykColor = new ColorBridge(new CMYK(0, 1, 1, 0));
+        System.out.println("Цвет в CMYK: " + cmykColor.getColor());
+
+        // создание цвета в HSV
+        Color hsvColor = new ColorBridge(new HSV(0, 1, 1));
+        System.out.println("Цвет в HSV: " + hsvColor.getColor());
+    }
+}
+
+abstract class ColorModel {
+    public abstract String getColor();
+}
+
+class RGB extends ColorModel {
+    private int red;
+    private int green;
+    private int blue;
+
+    public RGB(int red, int green, int blue) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
+
+    @Override
+    public String getColor() {
+        return "RGB(" + red + ", " + green + ", " + blue + ")";
+    }
+}
+
+class CMYK extends ColorModel {
+    private float cyan;
+    private float magenta;
+    private float yellow;
+    private float black;
+
+    public CMYK(float cyan, float magenta, float yellow, float black) {
+        this.cyan = cyan;
+        this.magenta = magenta;
+        this.yellow = yellow;
+        this.black = black;
+    }
+
+    @Override
+    public String getColor() {
+        return "CMYK(" + cyan + ", " + magenta + ", " + yellow + ", " + black + ")";
+    }
+}
+
+class HSV extends ColorModel {
+    private float hue;
+    private float saturation;
+    private float value;
+
+    public HSV(float hue, float saturation, float value) {
+        this.hue = hue;
+        this.saturation = saturation;
+        this.value = value;
+    }
+
+    @Override
+    public String getColor() {
+        return "HSV(" + hue + ", " + saturation + ", " + value + ")";
+    }
+}
+
+abstract class Color {
+    protected ColorModel colorModel;
+
+    public Color(ColorModel colorModel) {
+        this.colorModel = colorModel;
+    }
+
+    public abstract String getColor();
+}
+
+class ColorBridge extends Color {
+    public ColorBridge(ColorModel colorModel) {
+        super(colorModel);
+    }
+
+    @Override
+    public String getColor() {
+        return colorModel.getColor();
+    }
+}
+
+ЗАДАНИЕ 4...............................................................
+
+public class PaymentProcessor {
+    public static void main(String[] args) {
+        // создание адаптеров для платежных систем
+        PaymentAdapter payPalAdapter = new PayPalAdapter();
+        PaymentAdapter stripeAdapter = new StripeAdapter();
+
+        // выполнение платежей через адаптеры
+        payPalAdapter.makePayment(100.0);
+        stripeAdapter.makePayment(200.0);
+    }
+}
+
+interface Payment {
+    void pay(double amount);
+}
+
+class PayPal implements Payment {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Оплата через PayPal: " + amount + " долларов.");
+    }
+}
+
+class Stripe implements Payment {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Оплата через Stripe: " + amount + " долларов.");
+    }
+}
+
+interface PaymentAdapter {
+    void makePayment(double amount);
+}
+
+class PayPalAdapter implements PaymentAdapter {
+    private Payment payment;
+
+    public PayPalAdapter() {
+        this.payment = new PayPal();
+    }
+
+    @Override
+    public void makePayment(double amount) {
+        payment.pay(amount);
+    }
+}
+
+class StripeAdapter implements PaymentAdapter {
+    private Payment payment;
+
+    public StripeAdapter() {
+        this.payment = new Stripe();
+    }
+
+    @Override
+    public void makePayment(double amount) {
+        payment.pay(amount);
+    }
+}
+
+ЗАДАНИЕ 5........................................................................
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class WeatherApp {
+    public static void main(String[] args) {
+        WeatherData weatherData = new WeatherData();
+
+        // создание пользователей
+        User user1 = new User("Алексей");
+        User user2 = new User("Мария");
+
+        // подписка пользователей на уведомления
+        weatherData.subscribe(user1);
+        weatherData.subscribe(user2);
+
+        // изменение погодных условий
+        weatherData.setWeatherCondition("Солнечно");
+        weatherData.setWeatherCondition("Дождь");
+    }
+}
+
+interface Observer {
+    void update(String weatherCondition);
+}
+
+class User implements Observer {
+    private String name;
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void update(String weatherCondition) {
+        System.out.println("Пользователь " + name + " получил уведомление: Погода изменилась на " + weatherCondition);
+    }
+}
+
+class WeatherData {
+    private List<Observer> observers;
+    private String weatherCondition;
+
+    public WeatherData() {
+        observers = new ArrayList<>();
+    }
+
+    public void subscribe(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void unsubscribe(Observer observer) {
+        observers.remove(observer);
+    }
+
+    public void setWeatherCondition(String weatherCondition) {
+        this.weatherCondition = weatherCondition;
+        notifyObservers();
+    }
+
+    private void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(weatherCondition);
+        }
+    }
+}
+
+ЗАДАНИЕ 6...................................................................
+
+import java.util.Scanner;
+
+interface Authenticator {
+    boolean authenticate(User user);
+}
+
+class PasswordAuthenticator implements Authenticator {
+    @Override
+    public boolean authenticate(User user) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите пароль: ");
+        String password = scanner.nextLine();
+        return user.getPassword().equals(password); // Простая проверка пароля
+    }
+}
+
+class FingerprintAuthenticator implements Authenticator {
+    @Override
+    public boolean authenticate(User user) {
+        System.out.println("Сканирование отпечатка пальца...");
+        // просто имитируем создание
+        return true;
+    }
+}
+
+
+//  OAuth аутентификацию сымитируем. В реальности потребуется взаимодействие с OAuth провайдером
+class OAuthAuthenticator implements Authenticator{
+
+    @Override
+    public boolean authenticate(User user) {
+        System.out.println("Перенаправление на OAuth провайдера...");
+        System.out.println("Аутентификация через OAuth...");
+        
+        return true;
+    }
+}
+
+
+
+class User {
+    private String username;
+    private String password;
+
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+
+}
+
+public class AuthenticationSystem {
+    private Authenticator authenticator;
+
+    public AuthenticationSystem(Authenticator authenticator) {
+        this.authenticator = authenticator;
+    }
+
+
+    public boolean authenticateUser(User user) {
+
+        return authenticator.authenticate(user);
+    }
+
+    public static void main(String[] args) {
+        User user = new User("testuser", "password123"); // Создаем пользователя
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Выберите метод аутентификации:");
+        System.out.println("1. Пароль");
+        System.out.println("2. Отпечаток пальца");
+        System.out.println("3. OAuth");
+
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+
+        Authenticator auth;
+        switch (choice) {
+            case 1:
+                auth = new PasswordAuthenticator();
+                break;
+            case 2:
+                auth = new FingerprintAuthenticator();
+                break;
+            case 3:
+                auth = new OAuthAuthenticator();
+                break;
+            default:
+                System.out.println("Неверный выбор.");
+                return;
+        }
+
+
+        AuthenticationSystem system = new AuthenticationSystem(auth);
+
+        if (system.authenticateUser(user)) {
+            System.out.println("Аутентификация успешна!");
+        } else {
+            System.out.println("Аутентификация не удалась.");
+        }
+    }
+}
+
+ЗАДАНИЕ 7......................................................................
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BuilderPatternExample {
+    public static void main(String[] args) {
+        // создаем заказ с помощью строителя
+        OrderBuilder orderBuilder = new OrderBuilder();
+        Order order = orderBuilder
+                .setOrderId("12345")
+                .addProduct(new Product("Laptop", 999.99))
+                .addProduct(new Product("Mouse", 25.50))
+                .setDeliveryAddress("123 Main St, Anytown, USA")
+                .build();
+
+        // отображаем детали заказа
+        order.displayOrderDetails();
+    }
+}
+
+class Product {
+    private String name;
+    private double price;
+
+    public Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+}
+
+class Order {
+    private String orderId;
+    private List<Product> products;
+    private String deliveryAddress;
+    private double totalCost;
+
+    public Order(String orderId, List<Product> products, String deliveryAddress, double totalCost) {
+        this.orderId = orderId;
+        this.products = products;
+        this.deliveryAddress = deliveryAddress;
+        this.totalCost = totalCost;
+    }
+
+    public void displayOrderDetails() {
+        System.out.println("Order ID: " + orderId);
+        System.out.println("Products:");
+        for (Product product : products) {
+            System.out.println("- " + product.getName() + ": $" + product.getPrice());
+        }
+        System.out.println("Delivery Address: " + deliveryAddress);
+        System.out.println("Total Cost: $" + totalCost);
+    }
+}
+
+class OrderBuilder {
+    private String orderId;
+    private List<Product> products = new ArrayList<>();
+    private String deliveryAddress;
+    private double totalCost;
+
+    public OrderBuilder setOrderId(String orderId) {
+        this.orderId = orderId;
+        return this;
+    }
+
+    public OrderBuilder addProduct(Product product) {
+        products.add(product);
+        totalCost += product.getPrice();
+        return this;
+    }
+
+    public OrderBuilder setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+        return this;
+    }
+
+    public Order build() {
+        return new Order(orderId, products, deliveryAddress, totalCost);
+    }
+}
+
+ЗАДАНИЕ 8.....................................................................
+
+import java.util.Scanner;
+
+public class VolumeControlSystem {
+    public static void main(String[] args) {
+        AudioPlayer audioPlayer = new AudioPlayer();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nМеню управления уровнями громкости:");
+            System.out.println("1. Установить уровень громкости");
+            System.out.println("2. Сохранить текущий уровень громкости");
+            System.out.println("3. Восстановить сохраненный уровень громкости");
+            System.out.println("4. Вывести текущий уровень громкости");
+            System.out.println("5. Выход");
+
+            System.out.print("Введите номер действия: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Введите уровень громкости (от 0 до 100): ");
+                    int volumeLevel = scanner.nextInt();
+                    audioPlayer.setVolume(volumeLevel);
+                    break;
+                case 2:
+                    audioPlayer.saveVolume();
+                    break;
+                case 3:
+                    audioPlayer.restoreVolume();
+                    break;
+                case 4:
+                    audioPlayer.displayVolume();
+                    break;
+                case 5:
+                    System.out.println("Выход из системы управления уровнями громкости.");
+                    return;
+                default:
+                    System.out.println("Недопустимый выбор. Пожалуйста, выберите действие из меню.");
+            }
+        }
+    }
+}
+
+class AudioPlayer {
+    private int volumeLevel;
+    private int savedVolumeLevel; 
+
+    public AudioPlayer() {
+        this.volumeLevel = 50; 
+        this.savedVolumeLevel = 0; 
+    }
+    
+    public void setVolume(int volumeLevel) {
+        if (volumeLevel >= 0 && volumeLevel <= 100) {
+            this.volumeLevel = volumeLevel;
+            System.out.println("Уровень громкости установлен на " + volumeLevel + "%");
+        } else {
+            System.out.println("Недопустимый уровень громкости. Уровень громкости должен быть от 0 до 100.");
+        }
+    }
+
+    public void saveVolume() {
+        this.savedVolumeLevel = this.volumeLevel;
+        System.out.println("Текущий уровень громкости сохранен.");
+    }
+
+    public void restoreVolume() {
+        if (this.savedVolumeLevel != 0) {
+            this.volumeLevel = this.savedVolumeLevel;
+            System.out.println("Сохраненный уровень громкости восстановлен. Текущий уровень громкости: " + this.volumeLevel + "%");
+        } else {
+            System.out.println("Сохраненный уровень громкости не найден.");
+        }
+    }
+
+    public void displayVolume() {
+        System.out.println("Текущий уровень громкости: " + this.volumeLevel + "%");
+    }
+}
+
+ЗАДАНИЕ 9.................................................................................
+
+import java.util.Scanner;
+
+public class GlobalRequestCounter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+
+        System.out.println("Глобальный счетчик HTTP-запросов");
+        System.out.println("Введите 'request' для имитации HTTP-запроса или 'exit' для выхода.");
+
+        while (true) {
+            System.out.print("Введите команду: ");
+            input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("request")) {
+                RequestCounter.increment(); // Увеличиваем счетчик при каждом запросе
+                System.out.println("HTTP-запрос выполнен. Общее количество запросов: " + RequestCounter.getRequestCount());
+            } else if (input.equalsIgnoreCase("exit")) {
+                System.out.println("Выход из программы.");
+                break;
+            } else {
+                System.out.println("Недопустимая команда. Пожалуйста, введите 'request' или 'exit'.");
+            }
+        }
+
+        scanner.close();
+    }
+}
+
+class RequestCounter {
+    private static int requestCount = 0;
+
+    public static void increment() {
+        requestCount++;
+    }
+
+    public static int getRequestCount() {
+        return requestCount;
+    }
+}
+
+ЗАДАНИЕ 10......................................................................................
+
+import java.util.Scanner;
+
+public class TicketBookingSystem {
+    public static void main(String[] args) {
+        TicketBookingFacade ticketBookingFacade = new TicketBookingFacade();
+        ticketBookingFacade.bookTicket();
+    }
+}
+
+class Event {
+    private String name;
+
+    public Event(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Seat {
+    private String seatNumber;
+
+    public Seat(String seatNumber) {
+        this.seatNumber = seatNumber;
+    }
+
+    public String getSeatNumber() {
+        return seatNumber;
+    }
+}
+
+class EventSelector {
+    public Event selectEvent() {
+        System.out.println("Выберите мероприятие:");
+        System.out.println("1. Концерт");
+        System.out.println("2. Спортивное событие");
+        System.out.println("3. Театральная постановка");
+
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                return new Event("Концерт");
+            case 2:
+                return new Event("Спортивное событие");
+            case 3:
+                return new Event("Театральная постановка");
+            default:
+                System.out.println("Недопустимый выбор. Выбрано мероприятие по умолчанию: Концерт.");
+                return new Event("Концерт");
+        }
+    }
+}
+
+class SeatSelector {
+    public Seat selectSeat() {
+        System.out.println("Выберите место:");
+        System.out.println("1. Место A1");
+        System.out.println("2. Место B2");
+        System.out.println("3. Место C3");
+
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                return new Seat("A1");
+            case 2:
+                return new Seat("B2");
+            case 3:
+                return new Seat("C3");
+            default:
+                System.out.println("Недопустимый выбор. Выбрано место по умолчанию: A1.");
+                return new Seat("A1");
+        }
+    }
+}
+
+class PaymentProcessor {
+    public void processPayment() {
+        System.out.println("Оплата прошла успешно. Спасибо за покупку!");
+    }
+}
+
+class TicketBookingFacade {
+    private EventSelector eventSelector;
+    private SeatSelector seatSelector;
+    private PaymentProcessor paymentProcessor;
+
+    public TicketBookingFacade() {
+        eventSelector = new EventSelector();
+        seatSelector = new SeatSelector();
+        paymentProcessor = new PaymentProcessor();
+    }
+
+    public void bookTicket() {
+        Event event = eventSelector.selectEvent();
+        Seat seat = seatSelector.selectSeat();
+        System.out.println("Вы выбрали мероприятие: " + event.getName() + " и место: " + seat.getSeatNumber());
+        paymentProcessor.processPayment();
+    }
+}
+
+ЗАДАНИЕ 11.......................................................................................
+
+public class DocumentPrototypeDemo {
+    public static void main(String[] args) {
+        // создаем оригинальные документы
+        Document textDoc = new TextDocument("Это текстовый документ.");
+        Document pdfDoc = new PDFDocument("Это PDF-документ.");
+
+        // клонируем документы
+        Document clonedTextDoc = textDoc.clone();
+        Document clonedPDFDoc = pdfDoc.clone();
+
+        // отображаем содержимое оригинальных и клонированных документов
+        System.out.println("Оригинальные документы:");
+        textDoc.display();
+        pdfDoc.display();
+
+        System.out.println("\nКлонированные документы:");
+        clonedTextDoc.display();
+        clonedPDFDoc.display();
+    }
+}
+
+interface Document extends Cloneable {
+    Document clone();
+    void display();
+}
+
+class TextDocument implements Document {
+    private String content;
+
+    public TextDocument(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public Document clone() {
+        return new TextDocument(this.content); 
+    }
+
+    @Override
+    public void display() {
+        System.out.println("Содержимое текстового документа: " + content);
+    }
+}
+
+class PDFDocument implements Document {
+    private String content;
+
+    public PDFDocument(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public Document clone() {
+        return new PDFDocument(this.content);
+    }
+
+    @Override
+    public void display() {
+        System.out.println("Содержимое PDF-документа: " + content);
+    }
+}
+
+ЗАДАНИЕ 12 ....................................................................................
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TaskManagementSystem {
+    public static void main(String[] args) {
+        // создаем задачи
+        Task task1 = new Task("Задача 1");
+        Task task2 = new Task("Задача 2");
+        Task task3 = new Task("Задача 3");
+
+        // создаем категории задач
+        TaskCategory category1 = new TaskCategory("Категория 1");
+        TaskCategory category2 = new TaskCategory("Категория 2");
+
+        // добавляем задачи в категории
+        category1.addTask(task1);
+        category1.addTask(task2);
+        category2.addTask(task3);
+
+        // отображаем категории и их задачи
+        System.out.println("Список задач:");
+        category1.showDetails();
+        category2.showDetails();
+    }
+}
+
+interface TaskComponent {
+    void showDetails();
+}
+
+class Task implements TaskComponent {
+    private String name;
+
+    public Task(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println("Задача: " + name);
+    }
+}
+
+class TaskCategory implements TaskComponent {
+    private String name;
+    private List<TaskComponent> tasks = new ArrayList<>();
+
+    public TaskCategory(String name) {
+        this.name = name;
+    }
+
+    public void addTask(TaskComponent task) {
+        tasks.add(task); 
+    }
+
+    public void removeTask(TaskComponent task) {
+        tasks.remove(task); 
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println("Категория: " + name);
+        for (TaskComponent task : tasks) {
+            task.showDetails(); 
+        }
+    }
+}
